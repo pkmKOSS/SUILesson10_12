@@ -11,7 +11,7 @@ import SwiftUI
 struct SULLesson10_12App: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().background(Color.red)
         }
     }
 }
