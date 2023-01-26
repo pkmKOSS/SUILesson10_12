@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  StartedView.swift
 //  SULLesson10_12
 //
 //  Created by Григоренко Александр Игоревич on 23.01.2023.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// Стартовый экран
-struct ContentView: View {
+struct StartedView: View {
     
     // MARK: - Private constants
     
@@ -117,6 +117,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        StartedView()
     }
 }

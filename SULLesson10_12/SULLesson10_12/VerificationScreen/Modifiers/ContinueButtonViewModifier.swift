@@ -7,7 +7,11 @@
 
 import SwiftUI
 
+/// Модификатор кнопки верификации.
 struct ContinueButtonViewModifier: ViewModifier {
+
+    // MARK: - Public methods
+
     func body(content: Content) -> some View {
         content
             .frame(width: 270, height: 80)

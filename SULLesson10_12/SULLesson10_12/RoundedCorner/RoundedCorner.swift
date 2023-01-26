@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 /// Структура для закругления произвольных углов
 struct RoundedCorner: Shape {
 
@@ -23,7 +22,6 @@ struct RoundedCorner: Shape {
         return Path(path.cgPath)
     }
 }
-
 
 /// Метод для закругления произвольных углов
 extension View {

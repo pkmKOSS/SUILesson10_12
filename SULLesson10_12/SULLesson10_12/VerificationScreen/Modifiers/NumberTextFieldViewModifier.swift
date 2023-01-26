@@ -7,7 +7,11 @@
 
 import SwiftUI
 
+/// Модификатор поля ввода экрана верификации
 struct NumberTextFieldViewModifier: ViewModifier {
+
+    // MARK: - Public methods
+
     func body(content: Content) -> some View {
         content
             .keyboardType(.numberPad)

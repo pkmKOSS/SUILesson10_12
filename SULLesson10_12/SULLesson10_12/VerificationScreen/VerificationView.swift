@@ -29,6 +29,7 @@ struct VerificationView: View {
         static let didntReceiveSmsButtonViewText = "Did't recieve sms"
         static let sendSmsAgainButtonText = "Send sms again"
         static let sendSmsAgainAlertText = "Использовать код"
+        static let maxCountOfCodeField = 1
     }
 
     // MARK: - Public properties
@@ -102,7 +103,7 @@ struct VerificationView: View {
             .modifier(NumberTextFieldViewModifier())
             .focused($isFirstTextFieldFocused)
             .onChange(of: viewModel.firstTextFieldText) { newValue in
-                guard newValue.count == 1 else { return }
+                guard newValue.count == Constants.maxCountOfCodeField else { return }
                 self.isSecondTextFieldFocused = true
             }
     }
@@ -111,7 +112,7 @@ struct VerificationView: View {
         TextField(Constants.emptyString, text: $viewModel.secondTextFieldText)
             .modifier(NumberTextFieldViewModifier())
             .onChange(of: viewModel.secondTextFieldText) { newValue in
-                guard newValue.count == 1 else { return }
+                guard newValue.count == Constants.maxCountOfCodeField else { return }
                 self.isThirdTextFieldFocused = true
             }
             .focused($isSecondTextFieldFocused)
@@ -122,7 +123,7 @@ struct VerificationView: View {
             .modifier(NumberTextFieldViewModifier())
             .focused($isThirdTextFieldFocused)
             .onChange(of: viewModel.thirdTextFieldText) { newValue in
-                guard newValue.count == 1 else { return }
+                guard newValue.count == Constants.maxCountOfCodeField else { return }
                 self.isFoursTextFieldFocused = true
             }
     }
@@ -132,7 +133,7 @@ struct VerificationView: View {
             .modifier(NumberTextFieldViewModifier())
             .focused($isFoursTextFieldFocused)
             .onChange(of: viewModel.foursTextFieldText) { newValue in
-                guard newValue.count == 1 else { return }
+                guard newValue.count == Constants.maxCountOfCodeField else { return }
                 self.isFoursTextFieldFocused = false
             }
     }

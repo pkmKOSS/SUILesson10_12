@@ -7,14 +7,22 @@
 
 import Foundation
 
+/// Константы для метода - маски для телефонного номера
+fileprivate enum Constants {
+    static let emptyString = ""
+    static let regex = "[^0-9]"
+    static let placeHolderNumber: Character = "0"
+}
+
+/// Форматирование телефонного номера.
 extension String {
     func format(with mask: String) -> String {
-        let numbers = self.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
-        var result = ""
+        let numbers = self.replacingOccurrences(of: Constants.regex, with: Constants.emptyString, options: .regularExpression)
+        var result = Constants.emptyString
         var index = numbers.startIndex
 
         for ch in mask where index < numbers.endIndex {
-            if ch == "0" {
+            if ch == Constants.placeHolderNumber {
                 result.append(numbers[index])
                 index = numbers.index(after: index)
 

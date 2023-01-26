@@ -10,13 +10,6 @@ import SwiftUI
 /// Экран авторизации
 struct AuthorizationView: View {
 
-    // MARK: - Public enums
-
-    enum Scenario: String {
-        case LogIn = Constants.loginButtonText
-        case SingUp = Constants.signUpButtonText
-    }
-
     // MARK: - Private constants
 
     private enum Constants {
@@ -52,18 +45,12 @@ struct AuthorizationView: View {
 
     // MARK: - private properties
 
+    private let scenarioVarables = [AuthorizationViewModel.Scenario.LogIn, AuthorizationViewModel.Scenario.SingUp]
+
     @FocusState private var loginFocusState: Bool
     @FocusState private var passwordFocusState: Bool
-    @ObservedObject private var viewModel = AuthorizationViewModel()
-    @State private var scenarioPickerSelect = Scenario.LogIn
-    @State private var loginText = Constants.emptyString
-    @State private var passwordText = Constants.emptyString
-    @State private var logInSegmentButton = Color.white
-    @State private var signUpSegmentButton = Color.gray
-    @State private var isForgotPasswordShown = false
+    @StateObject private var viewModel = AuthorizationViewModel()
 
-
-    private let scenarioVarables = [Scenario.LogIn, Scenario.SingUp]
     private var backgroundView: some View {
         VStack {
             authorizationView
@@ -91,8 +78,8 @@ struct AuthorizationView: View {
 
     private var logInButtonView: some View {
         Button {
-            self.signUpSegmentButton = .gray.opacity(0.2)
-            self.logInSegmentButton = .white
+            self.viewModel.signUpSegmentButton = .gray.opacity(0.2)
+            self.viewModel.logInSegmentButton = .white
         } label: {
             Text(Constants.loginButtonText)
                 .foregroundColor(.indigo)
@@ -100,14 +87,14 @@ struct AuthorizationView: View {
                 .bold()
         }
         .frame(width: 157, height: 75)
-        .background(logInSegmentButton)
+        .background(viewModel.logInSegmentButton)
         .cornerRadius(40, corners: [.topLeft, .bottomLeft])
     }
 
     private var signUpSegmentButtonView: some View {
         Button {
-            self.signUpSegmentButton = .white
-            self.logInSegmentButton = .gray.opacity(0.2)
+            self.viewModel.signUpSegmentButton = .white
+            self.viewModel.logInSegmentButton = .gray.opacity(0.2)
         } label: {
             Text(Constants.signUpButtonText)
                 .foregroundColor(.indigo)
@@ -115,7 +102,7 @@ struct AuthorizationView: View {
                 .bold()
         }
         .frame(width: 157, height: 75)
-        .background(signUpSegmentButton.opacity(0.2))
+        .background(viewModel.signUpSegmentButton.opacity(0.2))
         .cornerRadius(40, corners: [.topRight, .bottomRight])
     }
 
@@ -132,16 +119,15 @@ struct AuthorizationView: View {
 
     private var loginTextFieldView: some View {
         TextField(Constants.mask, text: Binding(get: {
-            self.loginText
+            self.viewModel.loginText
         }, set: { newValue in
             guard newValue.count <= Constants.maxCountOfLoginText else { return }
-            self.loginText = newValue.format(with: Constants.mask)
+            self.viewModel.loginText = newValue.format(with: Constants.mask)
         }))
         .modifier(LoginTextfieldModifier())
         .focused($loginFocusState)
-        .onChange(of: loginText) { newValue in
-            guard loginText.count == Constants.maxCountOfLoginText else { return }
-            self.passwordFocusState = true
+        .onChange(of: viewModel.loginText) { newValue in
+            self.passwordFocusState = viewModel.checkPasswordFieldCount()
         }
     }
 
@@ -177,14 +163,14 @@ struct AuthorizationView: View {
 
     private var restorePasswordNavLinkView: some View {
         Button {
-            self.isForgotPasswordShown = true
+            self.viewModel.isForgotPasswordShown = true
         } label: {
             Text(Constants.forgotYourPasswordLinkText)
                 .padding(EdgeInsets(top: 0, leading: 0, bottom: 180, trailing: 0))
                 .font(Font.system(size: 20, design: .default))
                 .foregroundStyle(LinearGradient(colors: [.purple, .red], startPoint: .leading, endPoint: .trailing))
         }
-        .alert(Constants.forgotYourPasswordAlertText, isPresented: $isForgotPasswordShown) {
+        .alert(Constants.forgotYourPasswordAlertText, isPresented: $viewModel.isForgotPasswordShown) {
             Text(Constants.emptyString)
         }
     }

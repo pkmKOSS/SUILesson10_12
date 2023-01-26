@@ -7,7 +7,11 @@
 
 import SwiftUI
 
+/// Модификатор изображения верификации
 struct EnvelopeImageViewModifier: ViewModifier {
+
+    // MARK: - Public methods
+
     func body(content: Content) -> some View {
         content
             .scaledToFit()
