@@ -16,7 +16,7 @@ fileprivate enum Constants {
 
 /// Форматирование телефонного номера.
 extension String {
-    func format(with mask: String) -> String {
+    func formatString(with mask: String) -> String {
         let numbers = self.replacingOccurrences(of: Constants.regex, with: Constants.emptyString, options: .regularExpression)
         var result = Constants.emptyString
         var index = numbers.startIndex

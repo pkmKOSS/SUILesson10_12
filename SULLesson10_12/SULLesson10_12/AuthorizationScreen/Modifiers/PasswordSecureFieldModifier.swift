@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Модификатор поля ввода пароля экрана авторизации
 struct PasswordTextFieldSecureModifier: ViewModifier {
     func body(content: Content) -> some View {
         content

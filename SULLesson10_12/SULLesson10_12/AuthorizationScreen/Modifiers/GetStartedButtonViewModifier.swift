@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Модификатор кнопки завершения верификации
 struct GetStartedButtonViewModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
@@ -19,5 +20,3 @@ struct GetStartedButtonViewModifier: ViewModifier {
             .padding(EdgeInsets(top: 50, leading: 0, bottom: 25, trailing: 0))
     }
 }
-
-

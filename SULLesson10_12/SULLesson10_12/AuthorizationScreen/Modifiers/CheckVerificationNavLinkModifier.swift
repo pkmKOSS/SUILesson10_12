@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Модификатор кнопки проверки кода экрана верификации
 struct CheckVerificationNavLinkModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
@@ -16,6 +17,5 @@ struct CheckVerificationNavLinkModifier: ViewModifier {
             .foregroundColor(.white)
             .background(Color.red)
             .cornerRadius(35)
-
     }
 }

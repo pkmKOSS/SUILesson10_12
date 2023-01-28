@@ -36,7 +36,7 @@ struct DescriptionView: View {
 
     // MARK: - Private properties
 
-    @StateObject var viewModel = DescriptionScreenViewModel()
+    @StateObject private var viewModel = DescriptionScreenViewModel()
 
     private var backgroundView: some View {
         VStack {

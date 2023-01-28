@@ -47,9 +47,10 @@ struct AuthorizationView: View {
 
     private let scenarioVarables = [AuthorizationViewModel.Scenario.LogIn, AuthorizationViewModel.Scenario.SingUp]
 
+    @StateObject private var viewModel = AuthorizationViewModel()
+    
     @FocusState private var loginFocusState: Bool
     @FocusState private var passwordFocusState: Bool
-    @StateObject private var viewModel = AuthorizationViewModel()
 
     private var backgroundView: some View {
         VStack {
@@ -122,7 +123,7 @@ struct AuthorizationView: View {
             self.viewModel.loginText
         }, set: { newValue in
             guard newValue.count <= Constants.maxCountOfLoginText else { return }
-            self.viewModel.loginText = newValue.format(with: Constants.mask)
+            self.viewModel.loginText = newValue.formatString(with: Constants.mask)
         }))
         .modifier(LoginTextfieldModifier())
         .focused($loginFocusState)

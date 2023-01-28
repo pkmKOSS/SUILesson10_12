@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Модификатор поля ввода логина для экрана авторизации
 struct LoginTextfieldModifier: ViewModifier {
     func body(content: Content) -> some View {
         content

@@ -40,11 +40,12 @@ struct VerificationView: View {
     
     // MARK: - private properties
 
-    @ObservedObject private var viewModel = VerificationScreenViewModel()
+    @StateObject private var viewModel = VerificationScreenViewModel()
     @FocusState private var isFirstTextFieldFocused: Bool
     @FocusState private var isSecondTextFieldFocused: Bool
     @FocusState private var isThirdTextFieldFocused: Bool
     @FocusState private var isFoursTextFieldFocused: Bool
+
     @State private var isLoading = false
     @State private var isContineShown = false
     @State private var isCodeShown = false
