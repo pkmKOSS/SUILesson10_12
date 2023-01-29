@@ -1,4 +1,3 @@
-//
 //  AuthorizationViewModel.swift
 //  SULLesson10_12
 //

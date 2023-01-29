@@ -1,4 +1,3 @@
-//
 //  SULLesson10_12App.swift
 //  SULLesson10_12
 //
@@ -11,7 +10,7 @@ import SwiftUI
 struct SULLesson10_12App: App {
     var body: some Scene {
         WindowGroup {
-            StartedView().background(Color.red)
+            TapView().background(LinearGradient(colors: [.yellow, .red], startPoint: .leading, endPoint: .trailing))
         }
     }
 }

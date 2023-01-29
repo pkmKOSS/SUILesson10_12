@@ -1,4 +1,3 @@
-//
 //  VerificationView.swift
 //  SULLesson10_12
 //

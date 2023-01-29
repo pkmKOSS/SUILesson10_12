@@ -1,4 +1,3 @@
-//
 //  CheckVerificationNavLinkModifier.swift
 //  SULLesson10_12
 //
