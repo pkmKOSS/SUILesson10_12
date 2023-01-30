@@ -7,7 +7,7 @@
 import SwiftUI
 
 /// Представление экрана покупок.
-struct ShopScreen: View {
+struct ShopScreenView: View {
 
     // MARK: - Private constants
 
@@ -67,7 +67,7 @@ struct ShopScreen: View {
 
     private var searchBurNavLinkView: some View {
         NavigationLink {
-            FiltersScreen()
+            FiltersScreenView()
         } label: {
             searchBarTrailingView
         }
@@ -89,7 +89,7 @@ struct ShopScreen: View {
     private var furnitureAssortmentGridView: some View {
         LazyVGrid(columns: columns, spacing: 0) {
             ForEach((0..<FurnitureAssortment.furnitures.count)) {
-                createFurnitureItemView(furniture: FurnitureAssortment.furnitures[$0])
+                makeFurnitureItemView(furniture: FurnitureAssortment.furnitures[$0])
             }
         }
         .background(Color.white)
@@ -111,7 +111,7 @@ struct ShopScreen: View {
 
     // MARK: - Private methods
 
-    private func createFurnitureImageView(_ imageName: String) -> some View {
+    private func makeFurnitureImageView(_ imageName: String) -> some View {
         Image(imageName)
             .resizable()
             .scaledToFit()
@@ -119,7 +119,7 @@ struct ShopScreen: View {
             .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
     }
 
-    private func createDecrementButtonsView(furniture: Furniture) -> some View {
+    private func makeDecrementButtonsView(furniture: Furniture) -> some View {
         Button {
             self.viewModel.decrementTotalCost(cost: furniture.cost)
         } label: {
@@ -129,7 +129,7 @@ struct ShopScreen: View {
         }
     }
 
-    private func createIncrementButtonsView(furniture: Furniture) -> some View {
+    private func makeIncrementButtonsView(furniture: Furniture) -> some View {
         Button {
             self.viewModel.incrementTotalCost(cost: furniture.cost)
         } label: {
@@ -139,21 +139,21 @@ struct ShopScreen: View {
         }
     }
 
-    private func createNumberOfFurnitureView(furniture: Furniture) -> some View {
+    private func makeNumberOfFurnitureView(furniture: Furniture) -> some View {
         VStack(spacing: 0) {
             Text("\(furniture.name)")
                 .font(.title2)
                 .bold()
             HStack(spacing: 0) {
-                createDecrementButtonsView(furniture: furniture)
+                makeDecrementButtonsView(furniture: furniture)
                 currentCountOfFurnitureView
-                createIncrementButtonsView(furniture: furniture)
+                makeIncrementButtonsView(furniture: furniture)
             }
         }
         .frame(width: 90,height: 90)
     }
 
-    private func costLimitsView(furniture: Furniture) -> some View {
+    private func makeCostLimitsView(furniture: Furniture) -> some View {
         VStack(spacing: 10) {
             Text("\(Constants.dollarText)\(Int(furniture.cost))")
                 .font(Font.system(size: 25, design: .default))
@@ -167,7 +167,7 @@ struct ShopScreen: View {
         .frame(width: 110,height: 110)
     }
 
-    private func createFurnitureItemView(furniture: Furniture) -> some View {
+    private func makeFurnitureItemView(furniture: Furniture) -> some View {
         ZStack {
             RoundedRectangle(cornerRadius: 5)
                 .foregroundColor(.white)
@@ -175,9 +175,9 @@ struct ShopScreen: View {
                 .opacity(0.4)
                 .padding()
             HStack {
-                createFurnitureImageView(furniture.imageName)
-                createNumberOfFurnitureView(furniture: furniture)
-                costLimitsView(furniture: furniture)
+                makeFurnitureImageView(furniture.imageName)
+                makeNumberOfFurnitureView(furniture: furniture)
+                makeCostLimitsView(furniture: furniture)
             }
 
         }

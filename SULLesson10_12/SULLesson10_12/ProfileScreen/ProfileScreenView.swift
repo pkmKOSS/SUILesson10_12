@@ -7,7 +7,7 @@
 import SwiftUI
 
 /// Экран с профайлом пользователя.
-struct ProfileScreen: View {
+struct ProfileScreenView: View {
 
     // MARK: - Private constants
 
@@ -113,7 +113,7 @@ struct ProfileScreen: View {
     }
 
     private var notificationListView: some View {
-        NavigationLink(destination: NotificationScreen()) {
+        NavigationLink(destination: NotificationScreenView()) {
             HStack {
                 Image(systemName: Constants.notificationImageName)
                     .resizable()

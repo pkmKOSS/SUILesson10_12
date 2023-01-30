@@ -22,33 +22,38 @@ struct TapView: View {
     // MARK: - Public properties
 
     var body: some View {
-        TabView(selection: $selected) {
+        TabView(selection: $indexSelected) {
             StartedView()
                 .tabItem {
                     Image(systemName: Constants.startedViewImageName)
-                }.tag(0)
-            ShopScreen()
+                }
+                .tag(0)
+            ShopScreenView()
                 .tabItem {
                     Image(systemName: Constants.shopViewImageName)
-                }.tag(1)
-            NotificationScreen()
+                }
+                .tag(1)
+            NotificationScreenView()
                 .tabItem {
                     Image(systemName: Constants.notificationViewImageName)
-                }.tag(2)
-            ProfileScreen()
+                }
+                .tag(2)
+            ProfileScreenView()
                 .tabItem {
                     Image(systemName: Constants.profileViewImageName)
-                }.tag(3)
-            FiltersScreen()
+                }
+                .tag(3)
+            FiltersScreenView()
                 .tabItem {
                     Image(systemName: Constants.filterViewImageName)
-                }.tag(4)
+                }
+                .tag(4)
         }
     }
 
     // MARK: - Private properties
 
-    @State private var selected = 1
+    @State private var indexSelected = 1
 }
 
 /// Превью контента 

@@ -57,7 +57,7 @@ final class FilterScreenViewModel: ObservableObject {
 
     // MARK: - Public methods
 
-    func setColor(color: Color) {
+    func setTextColor(color: Color) {
         colorTextViewColor = color
     }
 }

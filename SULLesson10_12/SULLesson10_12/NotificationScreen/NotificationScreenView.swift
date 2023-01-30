@@ -7,7 +7,7 @@
 import SwiftUI
 
 /// Экран уведомлений
-struct NotificationScreen: View {
+struct NotificationScreenView: View {
 
     // MARK: - Private constants
 
@@ -35,7 +35,8 @@ struct NotificationScreen: View {
     private var notificationScrollView: some View {
         ScrollView {
             notificationFormView
-        }.padding(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
+        }
+        .padding(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
 
     }
 

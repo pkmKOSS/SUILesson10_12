@@ -7,7 +7,7 @@
 import SwiftUI
 
 /// Экран с настройкой фильтрации результатов поиска
-struct FiltersScreen: View {
+struct FiltersScreenView: View {
 
     // MARK: - Private constants
 
@@ -36,6 +36,7 @@ struct FiltersScreen: View {
     private let columns = [GridItem(), GridItem(), GridItem(), GridItem()]
 
     @StateObject private var viewModel = FilterScreenViewModel()
+
     @State private var pricingValue = 0.0
 
 
@@ -76,7 +77,7 @@ struct FiltersScreen: View {
                 .bold()
             Image(systemName: Constants.moreViewImageName)
                 .resizable()
-                .modifier(showMoreImageModifier())
+                .modifier(ShowMoreImageModifier())
         }
         .padding([.top, .bottom])
     }
@@ -92,26 +93,10 @@ struct FiltersScreen: View {
     private var categoryViewsInStackView: some View {
         HStack(spacing: 0) {
             ForEach(self.viewModel.imageNames, id: \.self) { imageNames in
-                categoryView(imageName: imageNames)
+                makeCategoryView(imageName: imageNames)
             }
         }
         .padding(.top)
-    }
-
-    private func categoryView(imageName: String) -> some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 5)
-                .shadow(radius: 5)
-                .foregroundColor(.white)
-                .padding()
-            Image(imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(height: 90)
-                .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
-        }
-        .scaledToFit()
-        .frame(width: 140,height: 130)
     }
 
     private var pricingSliderTitleView: some View {
@@ -172,14 +157,14 @@ struct FiltersScreen: View {
     private var colorsVGridView: some View {
         LazyVGrid(columns: columns, spacing: 35) {
             ForEach(viewModel.colors, id: \.self) { color in
-                colorsHStackView(color: color)
+                makeColorsHStackView(color: color)
             }
         }
     }
 
-    private func colorsHStackView(color: Color) -> some View {
+    private func makeColorsHStackView(color: Color) -> some View {
         Button {
-            self.viewModel.setColor(color: color)
+            self.viewModel.setTextColor(color: color)
         } label: {
             ZStack {
                 Circle()
@@ -189,5 +174,23 @@ struct FiltersScreen: View {
             }
         }
         .frame(width: 35, height: 35)
+    }
+
+    // MARK: - Private methods
+
+    private func makeCategoryView(imageName: String) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 5)
+                .shadow(radius: 5)
+                .foregroundColor(.white)
+                .padding()
+            Image(imageName)
+                .resizable()
+                .scaledToFit()
+                .frame(height: 90)
+                .padding(EdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10))
+        }
+        .scaledToFit()
+        .frame(width: 140,height: 130)
     }
 }

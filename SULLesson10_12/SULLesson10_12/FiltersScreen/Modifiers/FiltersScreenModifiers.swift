@@ -7,7 +7,7 @@
 import SwiftUI
 
 /// Модификатор главного представления экрана с уведомлениями
-struct showMoreImageModifier: ViewModifier {
+struct ShowMoreImageModifier: ViewModifier {
 
     // MARK: - Public methods
 

@@ -6,7 +6,7 @@
 
 import Foundation
 
-/// Модель экрана покупок
+/// Вью модель экрана покупок
 final class ShopScreenViewModel: ObservableObject {
 
     // MARK: - Public properties
