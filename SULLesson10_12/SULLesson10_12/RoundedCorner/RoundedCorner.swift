@@ -1,4 +1,3 @@
-//
 //  RoundedCorner.swift
 //  SULLesson10_12
 //

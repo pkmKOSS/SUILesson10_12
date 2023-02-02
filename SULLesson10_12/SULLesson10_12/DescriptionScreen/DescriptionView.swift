@@ -1,4 +1,3 @@
-//
 //  DescriptionView.swift
 //  SULLesson10_12
 //

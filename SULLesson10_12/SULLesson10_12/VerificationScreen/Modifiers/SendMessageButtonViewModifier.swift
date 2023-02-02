@@ -1,4 +1,3 @@
-//
 //  SendMessageButtonViewModifier.swift
 //  SULLesson10_12
 //

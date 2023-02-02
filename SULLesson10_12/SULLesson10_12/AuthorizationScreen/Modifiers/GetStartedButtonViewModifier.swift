@@ -1,4 +1,3 @@
-//
 //  GetStartedButtonViewModifier.swift
 //  SULLesson10_12
 //
