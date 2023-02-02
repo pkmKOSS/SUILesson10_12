@@ -5,13 +5,14 @@
 //  Created by Григоренко Александр Игоревич on 24.01.2023.
 //
 
-import Foundation
+import SwiftUI
 
 /// Константы для метода - маски для телефонного номера
 fileprivate enum Constants {
     static let emptyString = ""
     static let regex = "[^0-9]"
     static let placeHolderNumber: Character = "0"
+    static let cardFormatName = "XXXX XXXX XXXX XXXX"
 }
 
 /// Форматирование телефонного номера.

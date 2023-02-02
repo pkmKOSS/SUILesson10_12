@@ -48,6 +48,11 @@ struct TapView: View {
                     Image(systemName: Constants.filterViewImageName)
                 }
                 .tag(4)
+            SettingsTabView()
+                .tabItem {
+                    Image(systemName: Constants.filterViewImageName)
+                }
+                .tag(5)
         }
     }
 
