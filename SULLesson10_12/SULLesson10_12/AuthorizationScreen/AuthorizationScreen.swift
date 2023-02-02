@@ -52,9 +52,13 @@ struct AuthorizationView: View {
     @FocusState private var passwordFocusState: Bool
 
     private var backgroundView: some View {
-        VStack {
+        ZStack {
             authorizationView
+                .blur(radius: viewModel.isInvalidatePasswordAlertShown ? 10 : 0)
                 .frame(maxWidth: .infinity).padding(EdgeInsets(top: 150, leading: 0, bottom: 0, trailing: 0))
+            if viewModel.isInvalidatePasswordAlertShown {
+                invalidPasswordAlertView
+            }
         }
         .frame(maxWidth: .infinity)
         .background(LinearGradient(
@@ -147,7 +151,13 @@ struct AuthorizationView: View {
             self.viewModel.enterPassword(password: newValue)
         }))
             .modifier(PasswordTextFieldSecureModifier())
+            .modifier(ShakeEffect(animatableData: viewModel.isShaking))
             .focused($passwordFocusState)
+            .onSubmit {
+                withAnimation(Animation.spring()) {
+                    viewModel.checkPassword()
+                }
+            }
     }
 
     private var checkVerificationButtonView: some View {
@@ -157,8 +167,8 @@ struct AuthorizationView: View {
 
     private var continueButtonView: some View {
         NavigationLink(Constants.signUpButtonText, destination: DescriptionView())
-            .modifier(GetStartedButtonViewModifier())
             .disabled(!viewModel.isPasswordValid)
+            .modifier(GetStartedButtonViewModifier())
     }
 
     private var restorePasswordNavLinkView: some View {
@@ -173,5 +183,20 @@ struct AuthorizationView: View {
         .alert(Constants.forgotYourPasswordAlertText, isPresented: $viewModel.isForgotPasswordShown) {
             Text(Constants.emptyString)
         }
+    }
+
+    private var invalidPasswordAlertView: some View {
+        VStack {
+            Text("Warong password!")
+                .padding(.all, 15)
+            Button("Repeat") {
+                viewModel.isInvalidatePasswordAlertShown = false
+            }
+            .foregroundColor(.white)
+            .font(Font.system(size: 25))
+            .padding([.leading, .trailing, .bottom])
+        }
+        .background(Color.gray)
+        .cornerRadius(15)
     }
 }

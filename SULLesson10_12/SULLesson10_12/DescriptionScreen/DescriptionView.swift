@@ -52,6 +52,8 @@ struct DescriptionView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(height: 190)
+                .scaleEffect(scale)
+                .gesture(zoomGesutre)
             ZStack {
                 RoundedRectangle(cornerRadius: 15)
                     .foregroundColor(.white)
@@ -84,13 +86,18 @@ struct DescriptionView: View {
         .padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 10))
     }
 
+    @State var isHeartFill = false
+
     private var buyButtonView: some View {
         VStack(alignment: .trailing) {
-            Image(systemName: Constants.heartImageName)
+            Image(systemName: isHeartFill ? "heart.fill" : Constants.heartImageName)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 40, height: 40)
                 .foregroundColor(.red)
+                .onTapGesture {
+                    self.isHeartFill.toggle()
+                }
             Button {} label: {
                 Text(Constants.buyNowText)
             }
@@ -149,5 +156,17 @@ struct DescriptionView: View {
             .onChange(of: viewModel.descriptionText.count) { _ in
             viewModel.calculateTextCount()
         }
+    }
+
+    @State var scale: CGFloat = 1
+
+    private var zoomGesutre: some Gesture {
+        MagnificationGesture()
+            .onChanged { value in
+                scale = value
+            }
+            .onEnded { _ in
+                scale = 1
+            }
     }
 }

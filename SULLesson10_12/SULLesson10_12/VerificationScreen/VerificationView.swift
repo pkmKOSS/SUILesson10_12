@@ -56,6 +56,9 @@ struct VerificationView: View {
                 if viewModel.isLoading {
                     continueLoadingView
                 }
+                if isCodeShown {
+                    codeAlertView.transition(.slide)
+                }
             }
         }
         .navigationTitle(Text(Constants.navigationTitleText))
@@ -174,20 +177,31 @@ struct VerificationView: View {
 
     private var sendSmsAgainButtonView: some View {
         Button {
-            self.isCodeShown = true
+            withAnimation(Animation.easeOut(duration: 5)) {
+                self.isCodeShown = true
+            }
         } label: {
             Text(Constants.sendSmsAgainButtonText)
         }
+        .padding(.bottom, 140)
         .modifier(SendMessageButtonViewModifier())
-        .alert(isPresented: $isCodeShown) {
-            Alert(
-                title: Text("\(viewModel.codeFirstNumber)\(viewModel.codeSecondNumber)\(viewModel.codeThirdNumber)\(viewModel.codeFoursNumber)"),
-                dismissButton: .default(Text(Constants.sendSmsAgainAlertText), action: {
-                    self.viewModel.putNumberInField()
-                }))
-        }.onDisappear {
-            self.viewModel.putNumberInField()
+    }
+
+    private var codeAlertView: some View {
+        VStack {
+            Text("\(viewModel.codeFirstNumber)\(viewModel.codeSecondNumber)\(viewModel.codeThirdNumber)\(viewModel.codeFoursNumber)").padding([.leading, .top, .trailing], 15)
+                .foregroundColor(.white)
+            Button {
+                self.viewModel.putNumberInField()
+                self.isCodeShown = false
+            } label: {
+                Text(Constants.sendSmsAgainAlertText)
+            }
+            .foregroundColor(.white)
+            .padding([.leading, .bottom, .trailing], 15)
         }
+        .background(Color.gray)
+        .cornerRadius(15)
     }
 
     private var continueLoadingView: some View {
