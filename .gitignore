@@ -30,3 +30,4 @@ Generated
 #xcodegen
 Darium.xcodeproj
 Darium.xcworkspace
+*.xcuserstate
