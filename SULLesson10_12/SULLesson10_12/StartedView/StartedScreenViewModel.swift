@@ -7,7 +7,10 @@
 
 import SwiftUI
 
+/// Вью модель стартового экрана
 final class StartedScreenViewModel: ObservableObject {
+
+    // MARK: - Public properties
 
     @Published var isHeadTextShown = false
     @Published var isGetStartedButtonShow = false
@@ -15,9 +18,13 @@ final class StartedScreenViewModel: ObservableObject {
     @Published var fakeLoaderAmount = 0.0
     @Published var isFakeLoadingComplete = false
     @Published var isDeveloperAlertShown = false
-    
+
+    // MARK: - Private properties
+
     private var runCount = 0
 
+    // MARK: - Public methods
+    
     func showGetStartedButton() {
         self.isGetStartedButtonShow.toggle()
     }

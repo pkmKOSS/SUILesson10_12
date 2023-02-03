@@ -20,6 +20,7 @@ struct DescriptionView: View {
         static let chairText = "Chair"
         static let costText = "$55"
         static let heartImageName = "heart"
+        static let hearFillImageName = "heart.fill"
         static let buyNowText = "Buy now"
         static let descriptionLabelText = "Description"
         static let bagImageName = "bag"
@@ -37,6 +38,9 @@ struct DescriptionView: View {
 
     @StateObject private var viewModel = DescriptionScreenViewModel()
 
+    @State var isHeartFill = false
+    @State var scale: CGFloat = 1
+    
     private var backgroundView: some View {
         VStack {
             descriptionView
@@ -86,11 +90,9 @@ struct DescriptionView: View {
         .padding(EdgeInsets(top: 10, leading: 30, bottom: 10, trailing: 10))
     }
 
-    @State var isHeartFill = false
-
     private var buyButtonView: some View {
         VStack(alignment: .trailing) {
-            Image(systemName: isHeartFill ? "heart.fill" : Constants.heartImageName)
+            Image(systemName: isHeartFill ? Constants.hearFillImageName : Constants.heartImageName)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 40, height: 40)
@@ -157,8 +159,6 @@ struct DescriptionView: View {
             viewModel.calculateTextCount()
         }
     }
-
-    @State var scale: CGFloat = 1
 
     private var zoomGesutre: some Gesture {
         MagnificationGesture()

@@ -42,19 +42,25 @@ struct StartedView: View {
         static let singInTextLineSpacing: CGFloat = 15
         static let backGroundViewSpacing: CGFloat = 44
         static let emptyString = ""
+        static let endColorName = "EndColor"
+        static let startColorName = "StartColorName"
+        static let developerName = "A.Grogprenko!"
     }
 
     // MARK: - Public properties
 
     @StateObject var startedScreenViewModel = StartedScreenViewModel()
-    
+    @GestureState var isDetectingLongPress = false
+
+    @State var completedLongPress = false
+
     var body: some View {
         NavigationView {
             ZStack {
                 backgroundView
                 fakeLoader
                 if startedScreenViewModel.isFakeLoadingComplete {
-//                    ProfileScreenView().transition(.slide)
+                    ProfileScreenView().transition(.slide)
                 }
             }
         }
@@ -114,9 +120,6 @@ struct StartedView: View {
             .padding(EdgeInsets(top: Constants.defaultOffsetValue, leading: Constants.defaultOffsetValue, bottom: Constants.asyncImageBottomOffset, trailing: Constants.defaultOffsetValue))
     }
 
-    @GestureState var isDetectingLongPress = false
-    @State var completedLongPress = false
-
     private var longGesture: some Gesture {
         LongPressGesture(minimumDuration: 1)
             .updating($isDetectingLongPress) { currentState, gestureState, transaction in
@@ -170,18 +173,18 @@ struct StartedView: View {
         Circle()
             .trim(from: 0, to: CGFloat(startedScreenViewModel.fakeLoaderAmount))
             .stroke(
-                LinearGradient(colors: [Color("EndColor"), Color("EndColor"), Color("StartColor")], startPoint: .top, endPoint: .bottom),
+                LinearGradient(colors: [Color(Constants.endColorName), Color(Constants.endColorName), Color(Constants.startColorName)], startPoint: .top, endPoint: .bottom),
                 lineWidth: 30
             )
-            .shadow(color: Color("EndColor"), radius: 10, x: 0, y: 0)
-            .shadow(color: Color("StartColor"), radius: 10, x: 0, y: 0)
+            .shadow(color: Color(Constants.endColorName), radius: 10, x: 0, y: 0)
+            .shadow(color: Color(Constants.startColorName), radius: 10, x: 0, y: 0)
             .rotationEffect(Angle(degrees: 90))
             .frame(width: 150, height: 150)
     }
 
     private var developerAlert: some View {
         VStack {
-            Text("A.Grogprenko!")
+            Text(Constants.developerName)
                 .padding(.all, 15)
         }
         .background(Color.gray)
