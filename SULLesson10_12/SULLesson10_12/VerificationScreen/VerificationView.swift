@@ -40,6 +40,7 @@ struct VerificationView: View {
     // MARK: - private properties
 
     @StateObject private var viewModel = VerificationScreenViewModel()
+    
     @FocusState private var isFirstTextFieldFocused: Bool
     @FocusState private var isSecondTextFieldFocused: Bool
     @FocusState private var isThirdTextFieldFocused: Bool

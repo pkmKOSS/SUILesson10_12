@@ -28,6 +28,8 @@ struct AuthorizationView: View {
         static let forgotYourPasswordLinkText = "Forgot your password?"
         static let forgotYourPasswordAlertText = "Forgot your password? Call 8-800-555-35-35"
         static let maxCountOfLoginText = 17
+        static let wrongPasswordName = "Warong password!"
+        static let repeatButtonText = "Repeat"
     }
 
     // MARK: - public properties
@@ -50,6 +52,8 @@ struct AuthorizationView: View {
     
     @FocusState private var loginFocusState: Bool
     @FocusState private var passwordFocusState: Bool
+
+    // MARK: - Private methods
 
     private var backgroundView: some View {
         ZStack {
@@ -187,9 +191,9 @@ struct AuthorizationView: View {
 
     private var invalidPasswordAlertView: some View {
         VStack {
-            Text("Warong password!")
+            Text(Constants.wrongPasswordName)
                 .padding(.all, 15)
-            Button("Repeat") {
+            Button(Constants.repeatButtonText) {
                 viewModel.isInvalidatePasswordAlertShown = false
             }
             .foregroundColor(.white)
