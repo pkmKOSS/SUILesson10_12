@@ -28,6 +28,8 @@ struct AuthorizationView: View {
         static let forgotYourPasswordLinkText = "Forgot your password?"
         static let forgotYourPasswordAlertText = "Forgot your password? Call 8-800-555-35-35"
         static let maxCountOfLoginText = 17
+        static let wrongPasswordName = "Warong password!"
+        static let repeatButtonText = "Repeat"
     }
 
     // MARK: - public properties
@@ -51,10 +53,16 @@ struct AuthorizationView: View {
     @FocusState private var loginFocusState: Bool
     @FocusState private var passwordFocusState: Bool
 
+    // MARK: - Private methods
+
     private var backgroundView: some View {
-        VStack {
+        ZStack {
             authorizationView
+                .blur(radius: viewModel.isInvalidatePasswordAlertShown ? 10 : 0)
                 .frame(maxWidth: .infinity).padding(EdgeInsets(top: 150, leading: 0, bottom: 0, trailing: 0))
+            if viewModel.isInvalidatePasswordAlertShown {
+                invalidPasswordAlertView
+            }
         }
         .frame(maxWidth: .infinity)
         .background(LinearGradient(
@@ -147,7 +155,13 @@ struct AuthorizationView: View {
             self.viewModel.enterPassword(password: newValue)
         }))
             .modifier(PasswordTextFieldSecureModifier())
+            .modifier(ShakeEffect(animatableData: viewModel.isShaking))
             .focused($passwordFocusState)
+            .onSubmit {
+                withAnimation(Animation.spring()) {
+                    viewModel.checkPassword()
+                }
+            }
     }
 
     private var checkVerificationButtonView: some View {
@@ -157,8 +171,8 @@ struct AuthorizationView: View {
 
     private var continueButtonView: some View {
         NavigationLink(Constants.signUpButtonText, destination: DescriptionView())
-            .modifier(GetStartedButtonViewModifier())
             .disabled(!viewModel.isPasswordValid)
+            .modifier(GetStartedButtonViewModifier())
     }
 
     private var restorePasswordNavLinkView: some View {
@@ -173,5 +187,20 @@ struct AuthorizationView: View {
         .alert(Constants.forgotYourPasswordAlertText, isPresented: $viewModel.isForgotPasswordShown) {
             Text(Constants.emptyString)
         }
+    }
+
+    private var invalidPasswordAlertView: some View {
+        VStack {
+            Text(Constants.wrongPasswordName)
+                .padding(.all, 15)
+            Button(Constants.repeatButtonText) {
+                viewModel.isInvalidatePasswordAlertShown = false
+            }
+            .foregroundColor(.white)
+            .font(Font.system(size: 25))
+            .padding([.leading, .trailing, .bottom])
+        }
+        .background(Color.gray)
+        .cornerRadius(15)
     }
 }

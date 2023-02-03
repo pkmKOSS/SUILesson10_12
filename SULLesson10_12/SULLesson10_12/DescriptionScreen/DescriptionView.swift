@@ -20,6 +20,7 @@ struct DescriptionView: View {
         static let chairText = "Chair"
         static let costText = "$55"
         static let heartImageName = "heart"
+        static let hearFillImageName = "heart.fill"
         static let buyNowText = "Buy now"
         static let descriptionLabelText = "Description"
         static let bagImageName = "bag"
@@ -37,6 +38,9 @@ struct DescriptionView: View {
 
     @StateObject private var viewModel = DescriptionScreenViewModel()
 
+    @State var isHeartFill = false
+    @State var scale: CGFloat = 1
+    
     private var backgroundView: some View {
         VStack {
             descriptionView
@@ -52,6 +56,8 @@ struct DescriptionView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(height: 190)
+                .scaleEffect(scale)
+                .gesture(zoomGesutre)
             ZStack {
                 RoundedRectangle(cornerRadius: 15)
                     .foregroundColor(.white)
@@ -86,11 +92,14 @@ struct DescriptionView: View {
 
     private var buyButtonView: some View {
         VStack(alignment: .trailing) {
-            Image(systemName: Constants.heartImageName)
+            Image(systemName: isHeartFill ? Constants.hearFillImageName : Constants.heartImageName)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 40, height: 40)
                 .foregroundColor(.red)
+                .onTapGesture {
+                    self.isHeartFill.toggle()
+                }
             Button {} label: {
                 Text(Constants.buyNowText)
             }
@@ -149,5 +158,15 @@ struct DescriptionView: View {
             .onChange(of: viewModel.descriptionText.count) { _ in
             viewModel.calculateTextCount()
         }
+    }
+
+    private var zoomGesutre: some Gesture {
+        MagnificationGesture()
+            .onChanged { value in
+                scale = value
+            }
+            .onEnded { _ in
+                scale = 1
+            }
     }
 }

@@ -32,12 +32,13 @@ final class AuthorizationViewModel: ObservableObject {
     @Published var logInSegmentButton = Color.white
     @Published var signUpSegmentButton = Color.gray
     @Published var isForgotPasswordShown = false
+    @Published var isShaking: CGFloat = 0
+    @Published var isInvalidatePasswordAlertShown = false
 
     // MARK: - Public methods
 
     func enterPassword(password: String) {
         passwordText = password
-        checkPassword()
     }
 
     func checkPasswordFieldCount() -> Bool {
@@ -46,11 +47,19 @@ final class AuthorizationViewModel: ObservableObject {
 
     // MARK: - private methods
 
-    private func checkPassword() {
+    func checkPassword() {
         guard
             passwordText.count <= 15,
             passwordText.count >= 6
-        else { return  }
+        else {
+            isShaking = 10
+            self.isInvalidatePasswordAlertShown = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.isShaking = 0
+            }
+            isPasswordValid = false
+            return
+        }
         isPasswordValid = true
     }
 }

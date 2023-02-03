@@ -42,13 +42,27 @@ struct StartedView: View {
         static let singInTextLineSpacing: CGFloat = 15
         static let backGroundViewSpacing: CGFloat = 44
         static let emptyString = ""
+        static let endColorName = "EndColor"
+        static let startColorName = "StartColorName"
+        static let developerName = "A.Grogprenko!"
     }
 
     // MARK: - Public properties
 
+    @StateObject var startedScreenViewModel = StartedScreenViewModel()
+    @GestureState var isDetectingLongPress = false
+
+    @State var completedLongPress = false
+
     var body: some View {
         NavigationView {
-            backgroundView
+            ZStack {
+                backgroundView
+                fakeLoader
+                if startedScreenViewModel.isFakeLoadingComplete {
+                    ProfileScreenView().transition(.slide)
+                }
+            }
         }
     }
 
@@ -56,10 +70,33 @@ struct StartedView: View {
 
     private var backgroundView: some View {
         VStack(spacing: Constants.backGroundViewSpacing) {
-            headLabelTextView
+            headLabelTextView.onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    withAnimation {
+                        startedScreenViewModel.showHeadText()
+                    }
+                }
+            }
             headLabelAsyncImageView
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        withAnimation {
+                            startedScreenViewModel.showGetStartedButton()
+                        }
+                    }
+                }
             getStartedButtonView
-            singInTextView
+            if startedScreenViewModel.isDeveloperAlertShown {
+                developerAlert
+            }
+            singInTextView.onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    withAnimation {
+                        startedScreenViewModel.showSingHereText()
+                        startedScreenViewModel.startTimer()
+                    }
+                }
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(LinearGradient(colors: [Color.orange, Color.yellow], startPoint: .bottom, endPoint: .top))
@@ -74,12 +111,28 @@ struct StartedView: View {
             .multilineTextAlignment(.center)
             .lineSpacing(Constants.headLabelTextViewNameLineSpacing)
             .font(.title)
+            .scaleEffect(self.startedScreenViewModel.isHeadTextShown ? 1 : 0)
     }
 
     private var headLabelAsyncImageView: some View {
         AsyncImage(url: URL(string: Constants.furnitureURLs.randomElement() ?? Constants.emptyString))
             .scaleEffect(x:Constants.imageScaleCoef, y: Constants.imageScaleCoef)
             .padding(EdgeInsets(top: Constants.defaultOffsetValue, leading: Constants.defaultOffsetValue, bottom: Constants.asyncImageBottomOffset, trailing: Constants.defaultOffsetValue))
+    }
+
+    private var longGesture: some Gesture {
+        LongPressGesture(minimumDuration: 1)
+            .updating($isDetectingLongPress) { currentState, gestureState, transaction in
+                gestureState = currentState
+                transaction.animation = Animation.easeIn(duration: 2.0)
+            }
+            .onEnded { finished in
+                self.completedLongPress = finished
+                self.startedScreenViewModel.isDeveloperAlertShown = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.startedScreenViewModel.isDeveloperAlertShown = false
+                }
+            }
     }
 
     private var getStartedButtonView: some View {
@@ -90,6 +143,8 @@ struct StartedView: View {
             .foregroundColor(.white)
             .background(LinearGradient(colors: [.purple, .orange], startPoint: .bottom, endPoint: .top))
             .cornerRadius(Constants.getStartedButtonCornerRadius)
+            .scaleEffect(startedScreenViewModel.isGetStartedButtonShow ? 1 : 0)
+            .gesture(longGesture)
     }
 
     private var singInTextView: some View {
@@ -110,6 +165,29 @@ struct StartedView: View {
                 .multilineTextAlignment(.center)
                 .frame(width: Constants.singInTextWidht)
                 .lineSpacing(Constants.singInTextLineSpacing)
+                .scaleEffect(startedScreenViewModel.isSingHereShow ? 1 : 0)
         }
+    }
+
+    private var fakeLoader: some View {
+        Circle()
+            .trim(from: 0, to: CGFloat(startedScreenViewModel.fakeLoaderAmount))
+            .stroke(
+                LinearGradient(colors: [Color(Constants.endColorName), Color(Constants.endColorName), Color(Constants.startColorName)], startPoint: .top, endPoint: .bottom),
+                lineWidth: 30
+            )
+            .shadow(color: Color(Constants.endColorName), radius: 10, x: 0, y: 0)
+            .shadow(color: Color(Constants.startColorName), radius: 10, x: 0, y: 0)
+            .rotationEffect(Angle(degrees: 90))
+            .frame(width: 150, height: 150)
+    }
+
+    private var developerAlert: some View {
+        VStack {
+            Text(Constants.developerName)
+                .padding(.all, 15)
+        }
+        .background(Color.gray)
+        .cornerRadius(15)
     }
 }
